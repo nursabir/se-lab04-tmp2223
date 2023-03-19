@@ -61,7 +61,7 @@ public class Session extends Thread {
                     File file = new File("C:\\Users\\fikus\\IdeaProjects\\se-lab04-tmp2223\\src\\main\\java\\server\\data\\" + idOrName);
                     sendFile(file.getPath());
                 }
-              break;
+                break;
 
                 // по сокету возвращаем файл
             }
@@ -86,7 +86,7 @@ public class Session extends Thread {
                     if (idAndNameOfFile.containsValue(idOrName)) {
                         File file = new File("C:\\Users\\fikus\\IdeaProjects\\se-lab04-tmp2223\\src\\main\\java\\server\\data\\" + getKey(idAndNameOfFile, idOrName));
                         if (file.delete()) {
-                           idAndNameOfFile = rewriteDataBase(idOrName);
+                            idAndNameOfFile = rewriteDataBase(idOrName);
                             updateDataBased();
                             outputStream.writeUTF("File of ID " + idOrName + " were successful delet");
                         } else {
@@ -155,7 +155,7 @@ public class Session extends Thread {
         }
         while (sc.hasNextLine()) {
             String str = sc.nextLine();
-            result.put(str.split(" ")[0], str.split(" ")[1]);
+            if (str.length() > 0) result.put(str.split(" ")[0], str.split(" ")[1]);
         }
         return result;
     }
@@ -195,13 +195,14 @@ public class Session extends Thread {
         // отправили через сокет
         outputStream.write(buffer);
     }
-    public static Map<String, String> rewriteDataBase(String nameOrId){
+
+    public static Map<String, String> rewriteDataBase(String nameOrId) {
         Map<String, String> map = new HashMap<>();
         List<String> keys = new ArrayList<String>(idAndNameOfFile.keySet());
-        for(int i = 0; i < keys.size(); i++) {
+        for (int i = 0; i < keys.size(); i++) {
             String key = keys.get(i);
             String value = idAndNameOfFile.get(key);
-            if( ! (key.equals(nameOrId) || value.equals(nameOrId))){
+            if (!(key.equals(nameOrId) || value.equals(nameOrId))) {
                 map.put(key, value);
             }
         }
